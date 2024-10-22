@@ -4,7 +4,6 @@ const columns = 3; // Number of columns
 const setResBtn = document.querySelector('#setResolutionBtn');
 
 
-
 // return a string representing the value of property
 let width = window.getComputedStyle(document.querySelector('#container')).width
 console.log(width);
@@ -26,6 +25,7 @@ setResBtn.addEventListener('click', () => {
     console.log(width);
     // convert the numeric part into float, discard the string chars
     width = parseFloat(width);
+
     
     // fill the grid out using new values
     for (let i = 0; i < columns*columns; i++) {
@@ -39,6 +39,7 @@ setResBtn.addEventListener('click', () => {
     }
 })
 
+
 // initial set-up
 for (let i = 0; i < columns*columns; i++) {
     const element = document.createElement('div');
@@ -49,3 +50,5 @@ for (let i = 0; i < columns*columns; i++) {
 
     container.appendChild(element);
 }
+
+const pixel = document.querySelector('div#container > div');
