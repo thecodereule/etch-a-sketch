@@ -1,8 +1,8 @@
 const container = document.querySelector('#container');
-const columns = 3; // Number of columns
+const columns = 65; // Number of columns
 // const rows = 10; // Number of rows
 const setResBtn = document.querySelector('#setResolutionBtn');
-
+let isDrawing = false;
 
 // return a string representing the value of property
 let width = window.getComputedStyle(document.querySelector('#container')).width
@@ -13,7 +13,7 @@ width = parseFloat(width);
 function createGrid() {
     for (let i = 0; i < columns*columns; i++) {
         const element = document.createElement('div');
-        element.classList.add('columns');
+        element.classList.add('gridPixels');
         element.style.width = `${width/columns}px`
         element.style.height = `${width/columns}px`
         console.log(`in the loop ${width}`);
@@ -21,6 +21,27 @@ function createGrid() {
         container.appendChild(element);
     }
 }
+
+container.addEventListener('mousedown', (event) => {
+    // Check if the clicked element has the desired class
+    if (event.target.classList.contains('gridPixels')) {
+        isDrawing = true;
+        event.target.style.backgroundColor = 'black';
+        console.log('Dynamic element mousedown event');
+    }
+});
+
+container.addEventListener('mousemove', (event) => {
+    if (isDrawing && event.target.classList.contains('gridPixels')) {
+        event.target.style.backgroundColor = 'red';
+        console.log('mousemove');
+    }
+});
+
+container.addEventListener('mouseup', () => {
+    isDrawing = false; // Mouseup stop drawing
+});
+
 
 setResBtn.addEventListener('click', () => {
     let gridResolution = prompt("Set the grid dimensions: ");
