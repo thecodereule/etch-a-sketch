@@ -1,26 +1,30 @@
 const container = document.querySelector('#container');
-const columns = 65; // Number of columns
+const columns = 40; // Number of columns
 // const rows = 10; // Number of rows
 const setResBtn = document.querySelector('#setResolutionBtn');
 let isDrawing = false;
 
 // return a string representing the value of property
-let width = window.getComputedStyle(document.querySelector('#container')).width
-console.log(width);
+let containerWidth = window.getComputedStyle(document.querySelector('#container')).width
+console.log(containerWidth);
 // convert the numeric part into float, discard the string chars
-width = parseFloat(width);
+containerWidth = parseFloat(containerWidth);
 
 function createGrid() {
+    container.innerHTML = ''; // Clear existing elements
     for (let i = 0; i < columns*columns; i++) {
         const element = document.createElement('div');
         element.classList.add('gridPixels');
-        element.style.width = `${width/columns}px`
-        element.style.height = `${width/columns}px`
-        console.log(`in the loop ${width}`);
-    
+        calculateElementSize(element);
+        console.log(`in the loop ${containerWidth}`);
         container.appendChild(element);
     }
 }
+
+function calculateElementSize(element) {
+    element.style.width = `${containerWidth/columns}px`
+    element.style.height = `${containerWidth/columns}px`
+}; 
 
 container.addEventListener('mousedown', (event) => {
     // Check if the clicked element has the desired class
@@ -42,27 +46,19 @@ container.addEventListener('mouseup', () => {
     isDrawing = false; // Mouseup stop drawing
 });
 
-
 setResBtn.addEventListener('click', () => {
     let gridResolution = prompt("Set the grid dimensions: ");
-    console.log(gridResolution);
-    container.style.height = `${gridResolution}px`;
-    container.style.width = `${gridResolution}px`;
-    console.log(`unutar setResBtn-a ${width}`);
-    // clear everything from grid
-    container.innerHTML = '';
-
-    // recalculate grid canvas dimension
-    width = window.getComputedStyle(document.querySelector('#container')).width
-    console.log(width);
-    // convert the numeric part into float, discard the string chars
-    width = parseFloat(width);
-
-    
-    // fill the grid out using new values
-    createGrid();
-})
-
+    if (!isNaN(gridResolution) && gridResolution > 0) {
+        console.log(gridResolution);
+        container.style.height = `${gridResolution}px`;
+        container.style.width = `${gridResolution}px`;
+        containerWidth = parseFloat(window.getComputedStyle(container).width);
+        console.log(`unutar setResBtn-a ${containerWidth}`);
+        createGrid();
+    } else {
+        alert("Please enter a valid number.");
+    }
+});
 
 // initial set-up
 createGrid();
